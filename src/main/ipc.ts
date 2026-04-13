@@ -182,7 +182,7 @@ export function registerIpcHandlers(deps: {
 
   // ---- AI Analysis ----
 
-  ipcMain.handle("ai:analyze", async (_event, sessionId: string) => {
+  ipcMain.handle("ai:analyze", async (_event, sessionId: string, purpose?: string) => {
     const config = loadLLMConfig();
     if (!config) throw new Error("LLM provider not configured");
 
@@ -193,7 +193,7 @@ export function registerIpcHandlers(deps: {
         }
       : undefined;
 
-    return aiAnalyzer.analyze(sessionId, config, onProgress);
+    return aiAnalyzer.analyze(sessionId, config, onProgress, purpose);
   });
 
   // ---- Settings ----

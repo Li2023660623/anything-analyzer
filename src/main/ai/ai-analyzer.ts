@@ -21,7 +21,8 @@ export class AiAnalyzer {
   async analyze(
     sessionId: string,
     config: LLMProviderConfig,
-    onProgress?: (chunk: string) => void
+    onProgress?: (chunk: string) => void,
+    purpose?: string
   ): Promise<AnalysisReport> {
     // Get session info
     const session = this.sessionsRepo.findById(sessionId)
@@ -41,7 +42,7 @@ export class AiAnalyzer {
 
     // Build prompt
     const promptBuilder = new PromptBuilder()
-    const { system, user } = promptBuilder.build(data, platformName)
+    const { system, user } = promptBuilder.build(data, platformName, purpose)
 
     // Call LLM with retry
     const router = new LLMRouter(config)
